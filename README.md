@@ -485,7 +485,6 @@ void loop() {
     } else if (cmd == '0') {
       CURRENTOn = false;
       Serial.println("태양광전류로 전환");
-      dht.begin(); // 태양광으로 바뀔 때 센서 재초기화 시도
     }
   }
 
@@ -502,3 +501,106 @@ void loop() {
 - 시리얼 모니터 , Message에 1 , 0 입력해서 확인하기
     - <img src='./img/0태양광.png'>
     - <img src='./img/1가정용.png'>
+
+3. 릴레이모듈1 - 태양광전력 OR 가정용전력 + 릴레이모듈 2 - 가전제품 on/off
+- <img src='./img/릴레이모듈2개연결.png'>
+- 하드웨어 연결하기
+```
+기존 릴레이모듈1의 연결에 아래의 사항 더하고 수정하면 됨
+
+릴레이모듈2 com -릴레이모듈1 com 
+릴레이모듈2 no - 온습도센서 sig
+릴레이모듈2 vcc - 아두이노 5v
+릴레이모듈2 gnd - 아두이노 gnd
+릴레이모듈2 sig - 아두이노 4번핀
+```
+
+
+- 코드작성 , 컴파일
+```c++
+#include <DHT.h>
+
+#define RELAY_PIN_CURRENT 8
+#define RELAY_PIN_TEM 4
+
+#define DHTPIN 7 
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+bool CURRENTOn = true; // 릴레이 1 - 전원 선택용,,초기 상태는 ON (가정용전류)
+bool DHTOn = true;     // 릴레이 2 - 센서 전원 차단용
+
+int tem = 0;
+int hum = 0;
+
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);   
+  dht.begin();
+
+  pinMode(RELAY_PIN_CURRENT, OUTPUT);
+  digitalWrite(RELAY_PIN_CURRENT, HIGH); // 초기 상태는 ON (가정용전류)
+
+  pinMode(RELAY_PIN_TEM, OUTPUT);
+  digitalWrite(RELAY_PIN_TEM, HIGH); // 기본: 센서 ON
+
+}
+
+void dht11() {    //함수 dht11선언
+  tem = dht.readTemperature();    //변수 t에 온도 값을 저장
+  hum = dht.readHumidity();   //변수 h에 습도 값을 저장
+
+   // NaN (Not a Number) 체크 – 센서 읽기 실패할 경우
+  if (isnan(tem) || isnan(hum)) {
+    Serial.println("센서에서 데이터를 읽을 수 없습니다.");
+    return;
+  }
+
+  Serial.print("Temperature : ");   //문자열 출력
+  Serial.print(tem);    //변수 t출력
+  Serial.println("C");    //문자열 출력
+  Serial.print("Humidity : ");    //문자열 출력
+  Serial.print(hum);    //변수 h출력
+  Serial.println("%");    //문자열 출력
+
+  Serial.println(); // 한 줄 띄우기
+}
+
+void loop() {
+  if (Serial.available()) {
+    char cmd = Serial.read();
+
+    if (cmd == '1') {
+      CURRENTOn = true;
+      Serial.println("가정용전류로 전환");
+    } else if (cmd == '0') {
+      CURRENTOn = false;
+      Serial.println("태양광전류로 전환");
+    }
+   
+   // 센서 작동 제어
+    if (cmd == '2') {
+      DHTOn = true;
+      Serial.println("온습도 기계 ON");
+    } else if (cmd == '3') {
+      DHTOn = false;
+      Serial.println("온습도 기계 OFF");
+    }
+  }
+
+   // 릴레이 제어
+  digitalWrite(RELAY_PIN_CURRENT, CURRENTOn ? HIGH : LOW);
+  digitalWrite(RELAY_PIN_TEM, DHTOn ? HIGH : LOW);
+
+   // 센서 측정 (센서 ON일 때만)
+  if (DHTOn) {
+    dht11();
+  } else {
+    Serial.println("센서 OFF 상태");
+  }
+
+  delay(2000);
+}
+```
+- 시리얼 모니터 , Message에 1 , 0 / 2, 3 입력해서 확인하기
