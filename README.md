@@ -8,7 +8,7 @@ sudo shutdown -h now
 ## iot smarthome 팀 프로젝트
 #### 8/11 
 1. 더미데이터 만들기
-- <img src='./더미데이터만들기.png'>
+- <img src='./img/더미데이터만들기.png'>
 2. 도커 mysql 컨테이너 실행 및 테이블 생성
 - cmd에서 도커 - 컨테이너 생성
 ```shell
@@ -45,9 +45,9 @@ docker run --name mysql-container2 \
     2 rows in set (0.01 sec)
     ```
 - csv파일을 테이블에 load
-    - <img src='./더미데이터삽입1.png'>
-    - <img src='./더미데이터삽입2.png'>
-    - <img src='./더미데이터삽입3.png' >
+    - <img src='./img/더미데이터삽입1.png'>
+    - <img src='./img/더미데이터삽입2.png'>
+    - <img src='./img/더미데이터삽입3.png' >
 
 3. 라즈베리파이에서 api호출 파이썬 코드 작성
 
@@ -124,7 +124,7 @@ if __name__ == "__main__":
 
 
 4. 윈도우192.168.0.2 도커 실행, 라즈베리파이192.168.0.4 REST API 실행 ->웹사이트에서 192.168.0.4:8000/power-log 로 데이터 json형태 출력 확인함
-- <img src='./json확인.png'  width=500 >
+- <img src='./img/json확인.png'  width=500 >
 
 
 #### 8/12 
@@ -141,7 +141,7 @@ if __name__ == "__main__":
 - Canvas > HomePanel > GridPanel> House > Temp(text 컴포넌트) ,Temp2 (text 컴포넌트)
 - House - add conponent - Script - HouseManager 
 - House -  HouseManager - House Temp에는 Temp를 드래그,  House Temp2에는 Temp2를 드래그
-- <img src ='./컴포넌트연결.png'  width=500>
+- <img src ='./img/컴포넌트연결.png'  width=500>
 
 3. 유니티의 db 데이터 가져오기 - REST API , tick (C#스크립트)
 - 하단의 Project/Console 중    Project탭 > Assets > Scripts > c#스크립트 생성
@@ -224,17 +224,17 @@ public class HomeManager : MonoBehaviour
 
 }
 ```
-- <img src='./온습도,금일전력량호출완료.png' width=500>
-- <img src='./가전제품별전력소비량.png' width=500>
+- <img src='./img/온습도,금일전력량호출완료.png' width=500>
+- <img src='./img/가전제품별전력소비량.png' width=500>
 
 4. 가전제품별 소비전력량 차트(유니티)
 
 |UI|과정|이미지|
 |:--:|:--:|:--:|
-|ChartPanel > Furnitures > AllButton|DeviceBtn 컴포넌트 추가 > DeviceId (0 전체, 1 ~ 10) , chart (chartpanel)<br><br>onclick() 추가 > 현재버튼을 드래그|<img src='./버튼유니티설정.png' >|
-|ChartPanel > Chart > ChartPanel panel 생성 |DeviceChart컴포넌트 추가 > Chartpanel, Bar Prefab 설정 |<img src='./chartpanel유니티설정.png'>|
-|ChartPanel > Chart >Bar Prefab image 생성|Rec Transform, background 설정|<img src='./barchart유니티설정.png'>|
-|ChartPanel > Chart >Bar Prefab > Text ui생성 |예시 글자 입력 및 위치 설정|<img src='./bar차트날짜글자설정.png'>|
+|ChartPanel > Furnitures > AllButton|DeviceBtn 컴포넌트 추가 > DeviceId (0 전체, 1 ~ 10) , chart (chartpanel)<br><br>onclick() 추가 > 현재버튼을 드래그|<img src='./img/버튼유니티설정.png' >|
+|ChartPanel > Chart > ChartPanel panel 생성 |DeviceChart컴포넌트 추가 > Chartpanel, Bar Prefab 설정 |<img src='./img/chartpanel유니티설정.png'>|
+|ChartPanel > Chart >Bar Prefab image 생성|Rec Transform, background 설정|<img src='./img/barchart유니티설정.png'>|
+|ChartPanel > Chart >Bar Prefab > Text ui생성 |예시 글자 입력 및 위치 설정|<img src='./img/bar차트날짜글자설정.png'>|
 
 5. 가전제품별 소비전력량 차트(c#)
 - DeviceBtn.cs
@@ -374,7 +374,7 @@ public class DeviceChart : MonoBehaviour
 |:--:|:--:|:--:|:--:|
 |온습도|오늘날짜, 인덱스가장마지막|House > Temp, Temp2|HouseManager|
 |금일전력소비량|오늘날짜|TodayConsumption > Tconsumption|TconsumptionManager|
-|가전제품별 전력소비량|request param 시작일,종료일,가전제품id|<img src='./chart폴더구조.png'>|DeviceBtn, DeviceChart|
+|가전제품별 전력소비량|request param 시작일,종료일,가전제품id|<img src='./img/chart폴더구조.png'>|DeviceBtn, DeviceChart|
 
 #### 8/13 
 - 회의안건
@@ -500,5 +500,5 @@ void loop() {
 }
 ```
 - 시리얼 모니터 , Message에 1 , 0 입력해서 확인하기
-    - <img src='./images/0태양광.png'>
-    - <img src='./images/1가정용.png'>
+    - <img src='./img/0태양광.png'>
+    - <img src='./img/1가정용.png'>
