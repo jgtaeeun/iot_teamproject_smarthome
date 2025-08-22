@@ -604,3 +604,8 @@ void loop() {
 }
 ```
 - 시리얼 모니터 , Message에 1 , 0 / 2, 3 입력해서 확인하기
+  
+
+https://github.com/user-attachments/assets/d8661e08-d211-4d23-b12a-9be48412d9f7
+
+
